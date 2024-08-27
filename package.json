@@ -1,0 +1,32 @@
+{
+  "name": "server-http",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "seed": "node ./src/api/seeds/videojuegos.seeds.js",
+    "seed2": "node ./src/api/seeds/clientes.seeds.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@strapi/provider-upload-cloudinary": "^4.25.8",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.41.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.5.4",
+    "multer": "*",
+    "multer-storage-cloudinary": "^4.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.4"
+  }
+}
