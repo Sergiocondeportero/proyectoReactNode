@@ -12,11 +12,11 @@ cloudinary.config({
     api_key: process.env.CLOUD_API_KEY,
     api_secret: process.env.CLOUD_API_SECRET,
 });
-
+const cors =require("cors");
 connectDB();
 const server = express();
 const PORT = process.env.PORT || 3000;
-
+server.use(cors());
 server.use(express.json());
 //server.use('/user', routerUser); // Asegúrate de que esta ruta está correcta
 server.use('/videojuegos', routerVideojuegos); 
