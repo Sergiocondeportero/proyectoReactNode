@@ -1,6 +1,5 @@
 const express = require('express');
 const { connectDB } = require('./src/utils/db');
-//const routerUser = require('./src/api/routes/usuarios.routes'); 
 const routerVideojuegos = require('./src/api/routes/videojuegos.routes'); 
 const routerClientes = require('./src/api/routes/clientes.routes');
 const env = require('dotenv');

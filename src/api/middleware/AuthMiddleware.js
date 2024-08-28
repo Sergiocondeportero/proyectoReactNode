@@ -1,8 +1,7 @@
 const { verifyAccessToken } = require('../libs/jwt');
 
-// Middleware para verificar el token JWT
 const verificarToken = (req, res, next) => {
-    const token = req.headers['authorization']?.split(' ')[1]; // Obtener el token de los headers
+    const token = req.headers['authorization']?.split(' ')[1]; 
 
     if (!token) return res.status(401).json({ message: 'Token no proporcionado' });
 
@@ -13,4 +12,4 @@ const verificarToken = (req, res, next) => {
     next();
 };
 
-module.exports = { verificarToken }; // Exportar el middleware como un objeto
+module.exports = { verificarToken };

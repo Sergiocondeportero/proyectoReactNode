@@ -3,22 +3,20 @@ const Videojuegos = require('../models/videojuegos.models');
 // Obtener videojuegos con paginación
 const obtenerVideojuegos = async (req, res) => {
     try {
-        // Obtenemos la página actual desde la consulta, por defecto es la página 1
+      
         let pag = parseInt(req.query.pag) || 1;
 
-        // Aseguramos que la página sea al menos 1
         pag = !isNaN(pag) && pag > 0 ? pag : 1;
 
-        // Contamos el número total de videojuegos
+       
         const numVideojuegos = await Videojuegos.countDocuments();
         
-        // Consultamos todos los videojuegos sin paginación
+       
         const allVideojuegos = await Videojuegos.find();
 
-        // Calculamos el número total de páginas (aunque en este caso no usamos paginación)
+   
         const numPage = Math.ceil(numVideojuegos / 10);
 
-        // Combinamos la respuesta de la paginación con los datos de los videojuegos
         res.status(200).json({
             previewPage: pag > 1 ? pag - 1 : null,
             page: pag,
@@ -32,7 +30,7 @@ const obtenerVideojuegos = async (req, res) => {
     }
 };
 
-// Obtener videojuego por ID
+
 
 const obtenerVideojuegoPorId = async (req, res) => {
     try {
@@ -62,17 +60,16 @@ const crearVideojuego = async (req, res) => {
         });
 
         const savedVideojuego = await nuevoVideojuego.save();
-        console.log('Videojuego guardado:', savedVideojuego); // Depuración
+        console.log('Videojuego guardado:', savedVideojuego); 
 
         res.status(201).json(savedVideojuego);
     } catch (err) {
-        console.error('Error al crear el videojuego:', err); // Depuración
+        console.error('Error al crear el videojuego:', err); 
         res.status(400).json({ message: err.message });
     }
 };
 
 
-// Actualizar un videojuego
 const actualizarVideojuego = async (req, res) => {
     const { titulo, genero, plataforma, fechasalida, imagen, precio } = req.body;
     try {
@@ -93,7 +90,7 @@ const actualizarVideojuego = async (req, res) => {
     }
 };
 
-// Eliminar un videojuego
+
 const eliminarVideojuego = async (req, res) => {
     try {
         const videojuego = await Videojuegos.findById(req.params.id);

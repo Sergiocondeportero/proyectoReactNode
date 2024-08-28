@@ -1,4 +1,4 @@
-// src/api/models/clientes.models.js
+
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
@@ -9,7 +9,6 @@ const clienteSchema = new mongoose.Schema({
     videojuegosComprados: [{ type: mongoose.Schema.Types.ObjectId, ref: 'videojuegos' }]
 }, { timestamps: true });
 
-// Encriptar la contraseña antes de guardar el cliente
 clienteSchema.pre('save', async function(next) {
     if (!this.isModified('password')) return next();
 

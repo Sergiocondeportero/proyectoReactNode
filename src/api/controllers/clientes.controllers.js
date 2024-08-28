@@ -1,8 +1,7 @@
 const Clientes = require('../models/clientes.models');
 const Videojuegos = require('../models/videojuegos.models');
-const bcrypt = require('bcrypt'); // Asegúrate de que bcrypt esté importado
+const bcrypt = require('bcrypt'); 
 
-// Obtener todos los clientes
 const obtenerClientes = async (req, res) => {
     try {
         const clientes = await Clientes.find().populate('videojuegosComprados');
@@ -12,7 +11,6 @@ const obtenerClientes = async (req, res) => {
     }
 };
 
-// Obtener cliente por ID
 const obtenerClientePorId = async (req, res) => {
     try {
         const cliente = await Clientes.findById(req.params.id).populate('videojuegosComprados');
@@ -23,7 +21,6 @@ const obtenerClientePorId = async (req, res) => {
     }
 };
 
-// Crear un nuevo cliente
 const crearCliente = async (req, res) => {
     const { nombre, email, password } = req.body;
     try {
@@ -40,7 +37,7 @@ const crearCliente = async (req, res) => {
     }
 };
 
-// Actualizar cliente
+
 const actualizarCliente = async (req, res) => {
     const { nombre, email, password } = req.body;
     try {
@@ -61,7 +58,7 @@ const actualizarCliente = async (req, res) => {
     }
 };
 
-// Eliminar cliente
+
 const eliminarCliente = async (req, res) => {
     try {
         const cliente = await Clientes.findById(req.params.id);
@@ -74,7 +71,6 @@ const eliminarCliente = async (req, res) => {
     }
 };
 
-// Agregar videojuego a cliente
 const agregarVideojuegoACliente = async (req, res) => {
     try {
         const cliente = await Clientes.findById(req.params.id);

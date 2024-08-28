@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const Clientes = require('../models/clientes.models');
-const Videojuegos = require('../models/videojuegos.models');
 
-// Iniciar sesión y obtener un token JWT
+
+
 const iniciarSesion = async (req, res) => {
     const { email, password } = req.body;
 
@@ -14,7 +14,6 @@ const iniciarSesion = async (req, res) => {
         const esValidaPassword = await bcrypt.compare(password, cliente.password);
         if (!esValidaPassword) return res.status(400).json({ message: 'Contraseña incorrecta' });
 
-        // Generar token
         const token = jwt.sign({ id: cliente._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         res.status(200).json({ token });
