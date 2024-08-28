@@ -3,26 +3,20 @@ const Videojuegos = require('../models/videojuegos.models');
 // Obtener videojuegos con paginación
 const obtenerVideojuegos = async (req, res) => {
     try {
+        // Obtenemos la página actual desde la consulta, por defecto es la página 1
         let pag = parseInt(req.query.pag) || 1;
-        let limit = parseInt(req.query.limit) || 10; // Valor predeterminado de 10 videojuegos por página
-        
-        // Aseguramos que el límite sea entre 1 y 10
-        limit = Math.min(Math.max(limit, 1), 10);
-        
+
         // Aseguramos que la página sea al menos 1
         pag = !isNaN(pag) && pag > 0 ? pag : 1;
 
+        // Contamos el número total de videojuegos
         const numVideojuegos = await Videojuegos.countDocuments();
-        const numPage = Math.ceil(numVideojuegos / limit);
+        
+        // Consultamos todos los videojuegos sin paginación
+        const allVideojuegos = await Videojuegos.find();
 
-        // Ajustar si la página solicitada está fuera del rango
-        if (pag > numPage) {
-            pag = numPage;
-        }
-
-        const allVideojuegos = await Videojuegos.find()
-            .skip((pag - 1) * limit)
-            .limit(limit);
+        // Calculamos el número total de páginas (aunque en este caso no usamos paginación)
+        const numPage = Math.ceil(numVideojuegos / 10);
 
         // Combinamos la respuesta de la paginación con los datos de los videojuegos
         res.status(200).json({
@@ -39,6 +33,7 @@ const obtenerVideojuegos = async (req, res) => {
 };
 
 // Obtener videojuego por ID
+
 const obtenerVideojuegoPorId = async (req, res) => {
     try {
         const videojuego = await Videojuegos.findById(req.params.id);
@@ -52,21 +47,30 @@ const obtenerVideojuegoPorId = async (req, res) => {
 // Crear un nuevo videojuego
 const crearVideojuego = async (req, res) => {
     const { titulo, genero, plataforma, fechasalida, imagen, precio } = req.body;
+
+    // Imprimir el cuerpo de la solicitud para verificar los datos recibidos
+    console.log('Datos recibidos:', req.body);
+
     try {
         const nuevoVideojuego = new Videojuegos({
-            titulo,
-            genero,
-            plataforma,
-            fechasalida,
-            imagen,
-            precio
+            titulo: titulo || null,
+            genero: genero || null,
+            plataforma: plataforma || null,
+            fechasalida: fechasalida ? new Date(fechasalida) : null,
+            imagen: imagen || null,
+            precio: precio || null
         });
+
         const savedVideojuego = await nuevoVideojuego.save();
+        console.log('Videojuego guardado:', savedVideojuego); // Depuración
+
         res.status(201).json(savedVideojuego);
     } catch (err) {
+        console.error('Error al crear el videojuego:', err); // Depuración
         res.status(400).json({ message: err.message });
     }
 };
+
 
 // Actualizar un videojuego
 const actualizarVideojuego = async (req, res) => {
@@ -93,9 +97,13 @@ const actualizarVideojuego = async (req, res) => {
 const eliminarVideojuego = async (req, res) => {
     try {
         const videojuego = await Videojuegos.findById(req.params.id);
-        if (!videojuego) return res.status(404).json({ message: "Videojuego no encontrado" });
+        
+        if (!videojuego) {
+            return res.status(404).json({ message: "Videojuego no encontrado" });
+        }
 
-        await videojuego.remove();
+        await Videojuegos.findByIdAndDelete(req.params.id);
+
         res.status(200).json({ message: "Videojuego eliminado" });
     } catch (err) {
         res.status(500).json({ message: err.message });

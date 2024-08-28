@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const { verifyAccessToken } = require('../libs/jwt');
 
 // Middleware para verificar el token JWT
 const verificarToken = (req, res, next) => {
@@ -6,12 +6,11 @@ const verificarToken = (req, res, next) => {
 
     if (!token) return res.status(401).json({ message: 'Token no proporcionado' });
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err) return res.status(403).json({ message: 'Token inválido' });
+    const decoded = verifyAccessToken(token);
+    if (!decoded) return res.status(403).json({ message: 'Token inválido' });
 
-        req.userId = decoded.id;
-        next();
-    });
+    req.userId = decoded.id;
+    next();
 };
 
 module.exports = { verificarToken }; // Exportar el middleware como un objeto
