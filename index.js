@@ -18,7 +18,7 @@ const server = express();
 const PORT = process.env.PORT || 3000;
 server.use(cors());
 server.use(express.json());
-//server.use('/user', routerUser); // Asegúrate de que esta ruta está correcta
+
 server.use('/videojuegos', routerVideojuegos); 
 server.use('/clientes', routerClientes); 
 
