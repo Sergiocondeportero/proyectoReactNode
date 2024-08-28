@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { verificarToken } = require('../middleware/authMiddleware');
+// const { verificarToken } = require('../middleware/authMiddleware');
 
 const {
     obtenerClientes,
@@ -16,9 +16,9 @@ router.get('/', obtenerClientes);
 router.get('/:id', obtenerClientePorId);
 
 // Rutas protegidas
-router.post('/', verificarToken, crearCliente);
-router.put('/:id', verificarToken, actualizarCliente);
-router.delete('/:id', verificarToken, eliminarCliente);
-router.post('/:id/videojuegos', verificarToken, agregarVideojuegoACliente);
+router.post('/', crearCliente);
+router.put('/:id', actualizarCliente);
+router.delete('/:id', eliminarCliente);
+router.post('/:id/videojuegos', agregarVideojuegoACliente);
 
 module.exports = router;
